@@ -1,6 +1,7 @@
 # tizen-werbrtc
 Integration between a WebRTC android add and a Tizen Wearable widegt
 
+=== Useful links
 http://denvycom.com/blog/step-by-step-guide-to-build-your-first-samsung-gear2-app-tizen/
 http://developer.samsung.com/galaxy#accessory
 http://img-developer.samsung.com/contents/cmm/Guideline_on_Testing_Gear_applications_using_the_Emulator.pdf
