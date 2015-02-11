@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebRTC Communication and Wearable Devices</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="The new frontier of mobile development are wearable devices, the 2015 seems to be the year of watches. During this talk we will explore together how to initiate and handle a call using WebRTC from a Samsung Gear S device and your Android device.">
+    <meta name="generator" content="SlideCaptain">
+    <meta name="keywords" content="webrtc,java,android,tizen">
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <base href="" target="_blank">
+
+    <link rel="stylesheet" href="ajax/libs/highlight.js/8.0/styles/tomorrow.min.css">
+<link rel="stylesheet" href="ajax/libs/animate.css/3.1.0/animate.min.css">
+<link rel="stylesheet" href="ajax/libs/meyer-reset/2.0/reset.min.css">
+<link rel="stylesheet" href="bower_components/Flowtime.js/css/flowtime.css">
+<link rel="stylesheet" href="styles/themes/less/sc-theme.css">
+
+    <meta property="og:title" content="WebRTC Communication and Wearable Devices">
+    <meta property="og:description" content="The new frontier of mobile development are wearable devices, the 2015 seems to be the year of watches. During this talk we will explore together how to initiate and handle a call using WebRTC from a Samsung Gear S device and your Android device.">
+    <meta property="og:url" content="https://www.slidecaptain.com/flows/undefined">
+</head>
+<body class="sc-theme-font-7 sc-theme-color-8">
+<article class="flowtime no-transition">
+    
+    <section class="ft-section" data-title="Intro" data-id="intro">
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/image-gallery/9U94nKKlRViZuFK5gM51_86H.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="font-family: &apos;Open Sans&apos;; text-align: center;"><span style="background-color: rgb(245, 245, 245);">Many, many thanks to:</span></h1>
+                    
+                    <div><span style="background-color: rgb(245, 245, 245);"><br></span></div>
+                    
+                    <div><span style="background-color: rgb(245, 245, 245);"><br></span></div>
+                    
+                    <div><span style="background-color: rgb(245, 245, 245);"><br></span></div>
+                    
+                    <div><span style="background-color: rgb(245, 245, 245);"><br></span></div>
+                    
+                    <div><span style="background-color: rgb(245, 245, 245);"><br></span></div>
+                    
+                    <h2 style="font-family: &apos;Open Sans&apos;; text-align: center;"><span style="background-color: rgb(248, 248, 255);">Wistia<br>McGraw Hill Education<br>Proctor Cam</span></h2>
+                    
+                    <h1 style="text-align: center;"></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/image-gallery/q91zCwnqRpChpa0JwnLS_131H.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;"><span style="background-color: rgb(248, 248, 255);">WebRTC</span>&#xA0;</h1>
+                    
+                    <h1 style="text-align: center;"><span style="background-color: rgb(248, 248, 255);">and</span>&#xA0;</h1>
+                    
+                    <h1 style="text-align: center;"><span style="background-color: rgb(248, 248, 255);">Wearable Devices</span></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="font-family: &apos;Open Sans&apos;; text-align: center;">About Me</h1>
+                    
+                    <div style="text-align: center;">@giorgionatili</div>
+                    
+                    <h1 style="text-align: center;"><div style="font-size: 28px; text-align: start;"><ul><li>Technical Leader and Agile Coach&#xA0;</li><li>Front-end Developer (test first!)</li><li>Mobile Developer (Hybrid with Cordova, iOS, Android)</li><li>Technology Enthusiast</li><li>Mentor @ Airpair.com</li></ul></div></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">What&apos;s Next</h1>
+                    
+                    <div><ul><li><u>Intel IOT Road Show</u>&#xA0; &#xA0; &#xA0; / &#xA0; &#xA0; &#xA0; &#xA0;&#xA0;<b>Feb 24</b>&#xA0; &#xA0; &#xA0; &#xA0; &#xA0;/ &#xA0; &#xA0; &#xA0; &#xA0;&#xA0;<a href="https://iotroadshow.intel.com/en/home/">https://iotroadshow.intel.com/en/home</a></li><li><u>NoSQL Night #2</u>&#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;/ &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;<b>Mar 05</b>&#xA0; &#xA0; &#xA0; &#xA0; / &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;<a href="http://www.meetup.com/bostonsoftware/">http://www.meetup.com/bostonsoftware</a></li><li><u>Mobile Tea #4</u>&#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; / &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;<b>Mar 19</b>&#xA0; &#xA0; &#xA0; &#xA0; / &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;<a href="http://www.meetup.com/mobiletea/">http://www.meetup.com/mobiletea</a></li><li><u>Telerik Next</u> &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;/ &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;<b>May 3</b> &#xA0; &#xA0; &#xA0; &#xA0; / &#xA0; &#xA0; &#xA0; &#xA0; &#xA0;&#xA0;<a href="http://www.teleriknext.com/">http://www.teleriknext.com</a></li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Agenda</h1>
+                    
+                    <div><ul><li>Technologies&#xA0;overview&#xA0;</li><li>Tizen Wearable vs Android Wear</li><li>Getting started with Tizen Wearable</li><li>WebRTC and hybrid development</li><li>How to make it happening (Cross-Walk)<br></li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="The Cocktail" data-id="the-cocktail">
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/image-gallery/qADP0RX8S6uFXJM018yO_195.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;"><span style="font-family: inherit; font-size: 6rem;"><span style="background-color: rgb(248, 248, 255);">A Powerful Mix</span></span></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Technolgoies Overview</h1>
+                    
+                    <div><ul><li>Tizen Wearable</li><li>Android</li><li>Cordova</li><li>Cross-Walk</li><li>PhoneRTC</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Tizen</h1>
+                    
+                    <div><ul><li>Operating system based upon the Linux kernel</li><li>It runs on mobile phones (Samsung Z), wearable devices (Gear S2) and vehicles (IA32 and ARM)&#xA0;</li><li>Completely Open Source</li><li>Maily suported by Samsung,&#xA0;Intel, Orange SA, etc.</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Android</h1>
+                    
+                    <div><ul><li>Operating system based upon the Linux kernel<br></li><li>One of the most wide target operating system (mobile, wearable, car, tv, etc.)</li><li>A completely Open Source platform</li><li>Highly customizable (e.g. <a href="http://www.cyanogenmod.org/">Cyanogen</a>)</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Apache Cordova</h1>
+                    
+                    <div><ul><li>Hybrid mobile development framework</li><li>Started from the development community&#xA0;</li><li>Extends the device WebView capabilities</li><li>Based upon a plugin and callbacks architecture</li><li>Open Source</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Cross-Walk</h1>
+                    
+                    <div><ul><li>Runtime to deploy web based applications</li><li>Support multiple architectures</li><li>Provide a more consistent WebView (Android &gt; 4.x and Tizen common and IVI only)</li><li>Open Source</li><li>Enable Chromium features on mobile devices</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">PhoneRTC</h1>
+                    
+                    <div><ul><li>Cross platform WebRTC implementation (Android/iOS/Web)</li><li>Highly integrated with Apache Cordova</li><li>Open Source</li><li>Well documented&#xA0;<a href="https://github.com/alongubkin/phonertc/wiki">https://github.com/alongubkin/phonertc/wiki</a></li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Tizen VS Android Wear</h1>
+                    
+                    <div><ul><li><u>Connectivity</u>: both operating systems support the Bluetooth 4.0</li><li><u>Programming languages</u>: Java vs HTML5</li><li><u>SDKs</u>: both provide a solid SDK but the Tizen one offers more tools</li><li><u>App modes</u>: Tizen supports standalone apps (integrated and linked are supported by both)</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Tizen Wearable" data-id="tizen-wearable">
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/image-gallery/u2igPilzSBukHaiTXChR_128H.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;"><span style="background-color: rgb(248, 248, 255);">Tizen Wearable SDK</span></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">SDK Overview</h1>
+                    
+                    <div><ul><li style="font-family: &apos;Open Sans&apos;; font-size: 28px;">Device manager&#xA0;</li><li>Eclipse Based IDE</li><li>SDB (Smart Development Bridge)</li><li>Emulator</li><li>CLI(Command Line Interface) Tool</li><li>Wearable framework</li><li style="font-family: &apos;Open Sans&apos;; font-size: 28px;">HTML/JavaScript/CSS web&#xA0;framework (TAU)</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Wearable Framework</h1>
+                    
+                    <div><ul><li>Context manager support<br></li><li>Samsung Accessory Protocol stack support</li><li>Interoperability support via host manager (Phone side) and wearable manager service&#xA0;</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Web Framework</h1>
+                    
+                    <div><ul><li>Provides a complete implementation of the Web API optimized for wearable devices</li><li>W3C Widget specifications support</li><li>Device APIs to access to a device&#x2019;s platform capabilities support</li><li>Camera API support</li><li>Web UI framework</li><li>Clock widget support</li><div><br></div></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Application Models</h1>
+                    
+                    <div><ul><li>Linked (Master-Follower)</li><li>Integrated</li><li>Standalone</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Smart Development Bridge<br></h1>
+                    
+                    <div>It&#x2019;s a tool to manage to devices/emulators that for instance allow you to copy files, install apps, etc., between the supported commands the more noticeable are<br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 42.625rem;"><code ng-non-bindable="" class="language-sh">$ sdb kill-server               - kill <span class="hljs-keyword">the</span> server <span class="hljs-keyword">if</span> <span class="hljs-keyword">it</span> <span class="hljs-keyword">is</span> <span class="hljs-property">running</span>
+$ sdb start-server              - ensure <span class="hljs-keyword">that</span> there <span class="hljs-keyword">is</span> a server <span class="hljs-property">running</span>
+$ sdb pull &lt;remote&gt; [&lt;<span class="hljs-keyword">local</span>&gt;]   - <span class="hljs-keyword">copy</span> <span class="hljs-type">file</span>/dir <span class="hljs-keyword">from</span> device
+$ sdb push &lt;<span class="hljs-keyword">local</span>&gt; &lt;remote&gt;     - <span class="hljs-keyword">copy</span> <span class="hljs-type">file</span>/dir <span class="hljs-keyword">to</span> device
+$ sdb dlog [&lt;filter_spec&gt;]      - view device <span class="hljs-command">log</span>
+$ sdb root &lt;<span class="hljs-function_start"><span class="hljs-keyword">on</span></span> | off&gt;           - switch <span class="hljs-keyword">to</span> root <span class="hljs-keyword">or</span> developer account mode</code></pre><br></div>
+                    
+                    <div><br></div>
+                    
+                    <div><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Development Setup</h1>
+                    
+                    <div><ul><li>Download the Tizen Wearable SDK Manager and launch it</li><li>Add to your path the&#xA0;<span style="background-color: rgb(168, 168, 168);">tizen-wearable-sdk/tools/ide/bin</span> and&#xA0;<span style="background-color: rgb(168, 168, 168);">tizen-wearable-sdk/tools/</span> folders</li><li>Launch the IDE and create a sample project</li><li>Open the device manager, create a new virtual machine and debug the app</li></ul><div><br></div><div style="text-align: center;"><span style="font-size: 1.75rem;" data-dummy="Click to edit title..."><br></span></div><div style="text-align: center;"><span style="font-size: 1.75rem;" data-dummy="Click to edit title..."><i data-dummy="Click to edit title...">You need your Android SDK up and running, you will use a lot the ADB bridge to work with the target device...</i></span></div></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Quick Demo</h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Connecting to Device</h1>
+                    
+                    <div>In order to connect a widget and a device you have first of all to download this source code from the Samsung <a href="http://img-developer.samsung.com/contents/cmm/Applications_for_Emulator.zip">web site</a>&#xA0;(Applications_for_Emulator.zip) then follow this steps</div>
+                    
+                    <div><ul><li>Connect the target device to the USB</li><li>Install the following apps (exact order)<br><br><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 42.625rem;"><code ng-non-bindable="" class="language-sh"><span class="hljs-variable">$ </span>adb install <span class="hljs-constant">SAccessoryService_Emul</span>.apk
+<span class="hljs-variable">$ </span>adb install <span class="hljs-constant">SAFTCore_Emul</span>.apk 
+<span class="hljs-variable">$ </span>adb install <span class="hljs-constant">HostManagerForEmul</span>.apk</code></pre></li><li>Open&#xA0;the app <span style="background-color: rgb(168, 168, 168);">HostManagerForEmul</span> and the close it</li><li>Run the following command to iniziate the communication<br><br><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 42.625rem;"><code ng-non-bindable="" class="language-sh">$ <span class="hljs-tag">adb</span> <span class="hljs-tag">-d</span> <span class="hljs-tag">forward</span> <span class="hljs-tag">tcp</span><span class="hljs-pseudo">:8230</span> <span class="hljs-tag">tcp</span><span class="hljs-pseudo">:8230</span></code></pre></li><li>From the Tizen Wearable SDK&#xA0;create a new device and launch it</li><li>Connect the apps</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Quick Demo</h1>
+                    
+                    <div>(finger crossed!)</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Cordova" data-id="cordova">
+        
+        <article class="ft-page " data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/image-gallery/wmtl81bwTEyex1V0yfXS_7.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;"><span style="background-color: rgb(248, 248, 255);">Cordova</span></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Command Line (cli)</h1>
+                    
+                    <div>It&apos;s an <span style="background-color: rgb(168, 168, 168);">npm</span> module that acts as a wrapper around the different supported platforms, the most important commands are:</div>
+                    
+                    <div><br></div>
+                    
+                    <div><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 42.625rem;"><code ng-non-bindable="" class="language-sh">$ cordova &lt;PATH&gt; [ID [NAME]]                       - <span class="hljs-built_in">create</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">new</span> project
+$ cordova <span class="hljs-built_in">platform</span> [<span class="hljs-built_in">add</span>|remove|update][<span class="hljs-built_in">platform</span>]   - <span class="hljs-built_in">add</span>/remove/update <span class="hljs-operator">a</span> <span class="hljs-built_in">platform</span>
+$ cordova plugin [<span class="hljs-built_in">add</span>|remove|update][plugin]       - <span class="hljs-built_in">add</span>/remove/update <span class="hljs-operator">a</span> plugin
+$ cordova prepare [<span class="hljs-built_in">platform</span>]                       - move <span class="hljs-operator">the</span> asssets <span class="hljs-built_in">to</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">platform</span> projects
+$ cordova build [<span class="hljs-built_in">platform</span>]                         - build <span class="hljs-operator">a</span> specific <span class="hljs-built_in">platform</span>
+$ cordova run [<span class="hljs-built_in">platform</span>]                           - run <span class="hljs-operator">the</span> project <span class="hljs-operator">in</span> <span class="hljs-operator">a</span> target <span class="hljs-built_in">platform</span>
+$ cordova serve                                    - run <span class="hljs-operator">the</span> project <span class="hljs-operator">in</span> <span class="hljs-operator">a</span> <span class="hljs-built_in">local</span> web server</code></pre><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Cordova and Eclipse</h1>
+                    
+                    <div><ul><li>Once you add the Android platform and build the project you can import in Eclipse</li><li>Since Cordova 3.3 something goes wrong referencing to the embedded Cordova Lib project</li><li>Reference the source code (<u>discouraged</u>) or build Cordova (strongly <u>suggested</u>)</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Compile Cordova Android</h1>
+                    
+                    <div><ul><li>Clone the <a href="https://github.com/apache/cordova-android">android-cordova</a> repository</li><li>Switch to the 3.5 tag (is the only one can run also with older versions of Android)</li><li>Move to the framework folder</li><li>Update the project configuration files to the desired SDK and create the JAR<br><br><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 42.625rem;"><code ng-non-bindable="" class="language-sh"><span class="hljs-variable">$ </span>android update project -p . -t android-<span class="hljs-number">17</span> --subprojects
+<span class="hljs-variable">$ </span>ant jar</code></pre><br></li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Enabling WebRTC</h1>
+                    
+                    <div>It&apos;s enough to install the plugin in your project, you can install it from a local folder or using the git repo (and optionally a tag)</div>
+                    
+                    <div><br></div>
+                    
+                    <div><pre class="sc-code-display ng-scope" ng-click="selectCode($event)" style="max-height: 42.625rem;"><code ng-non-bindable="" class="language-sh">$ cordova plugin <span class="hljs-keyword">add</span> https://github<span class="hljs-preprocessor">.com</span>/alongubkin/phonertc<span class="hljs-preprocessor">.git</span></code></pre><br></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Create a WebRTC&#xA0;Project</h1>
+                    
+                    <div><ul><li>Create a Cordova project and add the Android platform</li><li>Download the source code of the PhoneRTC <a href="https://github.com/alongubkin/phonertc/tree/master/demo/client">demo</a>&#xA0;(available on GitHub)</li><li>Copy the client files into the <span style="background-color: rgb(168, 168, 168);">www</span> folder</li><li>Install the server files on a <span style="background-color: rgb(168, 168, 168);">node.js</span> environment</li><li>Change in <span style="background-color: rgb(168, 168, 168);">signaling.js</span> the connection address (ip or domain)</li><li>Build and test it</li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Quick Demo</h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Recap" data-id="recap">
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/image-gallery/XwtmzaHWTGOf1gzlWreh_made_in.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;"><span style="background-color: rgb(248, 248, 255);">Recap</span></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Step 1</h1>
+                    
+                    <div>Install the Tizen Wearable SDK and define a vritual device</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Step 2</h1>
+                    
+                    <div>Configure a SAP server on your device in order to test the connectivity</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Step 3</h1>
+                    
+                    <div>Import &#xA0;the <span style="background-color: rgb(168, 168, 168);">HelloAccessoryProvider</span> project&#xA0;<span style="font-size: 1.75rem;">in Eclipse and build it (just to be sure your configuration is OK)</span></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Step 4</h1>
+                    
+                    <div>Import your WebRTC Cordova project in Eclipse (don&apos;t build it, it will fail)</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Step 5</h1>
+                    
+                    <div>Build and link Cordova to your project (don&apos;t forget to match your target API)</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Step 6</h1>
+                    
+                    <div>Build the Cordova project to verify everything is correctly configured</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Step 7</h1>
+                    
+                    <div>Start the integration of the&#xA0;<span style="font-size: 1.75rem; background-color: rgb(168, 168, 168);">HelloAccessoryProvider</span><span style="font-size: 1.75rem;">&#xA0;project with the Cordova one</span></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Step 8</h1>
+                    
+                    <div>Build a Tizen Wearable widget and connect it to your Cordova app</div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">What&apos;s Next</h1>
+                    
+                    <div>Follow this repo&#xA0;<a href="https://github.com/GiorgioNatili/tizen-werbrtc">https://github.com/GiorgioNatili/tizen-werbrtc</a></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Resources" data-id="resources">
+        
+        <article class="ft-page sc-fragmented" data-title="" data-animation="" style="background-image: url(&quot;https://s3-eu-west-1.amazonaws.com/filepicker.slidecaptain/image-gallery/BG8wL2kgTrWJ76AgW1kQ_96H.jpg&quot;); background-size: cover;">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;"><span style="background-color: rgb(248, 248, 255);">Resources</span><br></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Useful Links</h1>
+                    
+                    <div><ul><li><a href="http://denvycom.com/blog/step-by-step-guide-to-build-your-first-samsung-gear2-app-tizen/">http://denvycom.com/blog/step-by-step-guide-to-build-your-first-samsung-gear2-app-tizen</a><br></li><li><a href="http://developer.samsung.com/galaxy#accessory">http://developer.samsung.com/galaxy#accessory</a></li><li><a href="https://crosswalk-project.org/documentation/tizen_ivi_extensions.html">https://crosswalk-project.org/documentation/tizen_ivi_extensions.html</a><br></li><li><a href="https://wiki.tizen.org/wiki/Tizen_IVI_SDK#Installing_Tizen_IVI_SDK">https://wiki.tizen.org/wiki/Tizen_IVI_SDK#Installing_Tizen_IVI_SDK</a><br></li><li><a href="https://developer.tizen.org/dev-guide/2.3.0/">https://developer.tizen.org/dev-guide/2.3.0</a><br></li><li><a href="http://denvycom.com/blog/how-to-install-wgt-files-gear2/">http://denvycom.com/blog/how-to-install-wgt-files-gear2</a><br></li><li><a href="http://java.dzone.com/articles/cordova-hello-world-android">http://java.dzone.com/articles/cordova-hello-world-android</a></li><li><a href="https://crosswalk-project.org/">https://crosswalk-project.org</a></li><li><a href="http://codingsquare.blogspot.com/2013/08/creating-cordova-3-android-project.html">http://codingsquare.blogspot.com/2013/08/creating-cordova-3-android-project.html</a><br></li><li><a href="http://stackoverflow.com/questions/20659853/cordova-ant-jar-not-available">http://stackoverflow.com/questions/20659853/cordova-ant-jar-not-available</a><br></li><li><a href="http://alexruiz.developerblogs.com/?p=2734">http://alexruiz.developerblogs.com/?p=2734</a></li><li><a href="http://docs.phonegap.com/en/edge/guide_platforms_android_index.md.html#Android%20Platform%20Guide">http://docs.phonegap.com/en/edge/guide_platforms_android_index.md.html</a><br></li><li><a href="https://developer.tizen.org/documentation/articles/smart-development-bridge">https://developer.tizen.org/documentation/articles/smart-development-bridge</a><br></li></ul></div>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="font-family: &apos;Open Sans&apos;; text-align: center;">@giorgionatili<br></h1>
+                    
+                    <h1 style="font-family: &apos;Open Sans&apos;; text-align: center;"><div style="font-size: 28px;">#mobiletea #javascript #swift #wearable #agile #android #tdd</div></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 sc-centered">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="font-family: &apos;Open Sans&apos;; text-align: center;">Thanks!</h1>
+                    
+                    <h1 style="text-align: center;"><div style="font-size: 28px;"><div style="font-size: 28px;">Grazie! Gra&#xE7;ias! Danke! Merci! &#x8C22;&#x8C22;!&#xA0;<br></div><div style="font-size: 28px;"><iframe src="http://giphy.com/embed/y62NM95N1Jyda" width="480" height="360" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen style="width: 30rem; height: 22.5rem; max-width: 95%; max-height: 95%;" class="ng-scope"></iframe><br></div></div></h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+    <section class="ft-section" data-title="Cross-Walk" data-id="cross-walk">
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Cross-Walk</h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Why</h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Getting Started</h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Cordova Integration</h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+        <article class="ft-page " data-title="" data-animation="" style="">
+            <div class="sc-boxwrapper sc-page-type-1 ">
+                
+                <div class="sc-box box0">
+                    
+                    <h1 style="text-align: center;">Trouble Shooting</h1>
+                    
+                </div>
+                
+            </div>
+        </article>
+        
+    </section>
+    
+</article>
+
+<script src="ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="ajax/libs/screenfull.js/1.0.4/screenfull.min.js"></script>
+<script src="ajax/libs/leapjs/0.6.0/leap.min.js"></script>
+<script src="ajax/libs/mathjax/2.3/MathJax.js?config=TeX-AMS_HTML.js"></script>
+<script src="ajax/libs/less.js/1.7.1/less.min.js"></script>
+<script src="ajax/libs/velocity/0.2.1/jquery.velocity.min.js"></script>
+<script src="ajax/libs/velocity/0.2.1/velocity.ui.min.js"></script>
+<script src="bower_components/Flowtime.js/js/flowtime.min.js"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {
+            scale: 75
+        }
+    });
+</script>
+<script type="text/javascript">
+    /**
+     * Calculates the scale based on the actual screen width
+     */
+    function calculateScale() {
+        var html, h, w, scale;
+        html = $('html');
+        h = $(window).height();
+        w = $(window).width();
+        scale = Math.round(w / 1440 * 100);
+        html.css({
+            'font-size': scale + '%'
+        });
+    }
+
+    /**
+     * Starts the Flowtime presentation
+     * @param {Boolean} progress - show the default progress when in page mode
+     * @param {Boolean} autoplay - status of the autoplay feature
+     * @param {Number} delay - the time between the page navigation in milliseconds
+     * @param {Boolean} loop - loop the navigation
+     * @param{Boolean} fullscreen - show fullscreen
+     */
+    function startPresentation(progress, autoplay, delay, loop, fullscreen) {
+        // configure application
+        Flowtime.showProgress(progress);
+        Flowtime.autoplay(autoplay, delay);
+        Flowtime.loop(loop);
+        Flowtime.useOverviewVariant(true);
+        // starts the application with configuration options
+        Flowtime.start();
+        /**
+         * Handle navigation events
+         */
+        Flowtime.onNavigation(function (ev) {
+            var target, animation, clazzes;
+            // animation
+            if (ev.fragmentIndex === -1) {
+                target = $(ev.page); // .find('.sc-boxwrapper');
+                animation = target.data('animation');
+                if (animation.indexOf('.') === -1) {
+                    clazzes = 'animated ' + animation;
+                    target.removeClass(clazzes).addClass(clazzes).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                        $(this).removeClass(clazzes);
+                    });
+                } else {
+                    target.velocity(animation);
+                }
+            }
+            // embedded
+            $(ev.page).find('div[sc-embedded]').each(function () {
+                var data, content;
+                data = $(this).data('embedded');
+                if (data.html) {
+                    content = data.html;
+                    $(this).find('div[sc-embedded-thumbnail]').replaceWith(content);
+
+                    if (window.location.protocol === 'file:') {
+                        // add protocol to embedded videos
+                        $('iframe[src^="//"]').attr('src', function(i, val) {
+                            return 'http:' + val;
+                        });
+                    }
+                } else {
+                }
+
+                if (false && data.html && data.html.length > 0) {
+                    $(this).find('div[sc-embedded-thumbnail]').replaceWith(data.html);
+                }
+            });
+        });
+        // fragmented
+        $('.sc-fragmented').each(function () {
+            $(this).find('.sc-box').children(':parent').each(function () {
+                if ($(this).find('br:only-child').length !== 1) {
+                    $(this).addClass('ft-fragment');
+                }
+            });
+            $(this).find('li').addClass('ft-fragment');
+        });
+        // update to reflect css changes
+        Flowtime.updateNavigation();
+        // centered
+        $('.sc-centered').each(function () {
+            $(this).find('.sc-type1 .box0').addClass('centered');
+        });
+        // contenteditable
+        $('[contenteditable]').attr('contenteditable', null);
+        // fullscreen
+        if (fullscreen) {
+            $('body').click(function () {
+                screenfull.request();
+            });
+            setTimeout(function () {
+                $('body').trigger('click');
+            }, 1000);
+        }
+        // leap motion
+        ( function () {
+            var timeout, detect;
+            timeout = 1000;
+            detect = true;
+            // handle leap events
+            Leap.loop({
+                enableGestures: true
+            }, function (frame) {
+                var g, xdiff, ydiff, zdiff, movements, m;
+                g = frame.gestures[0];
+                if (detect && g && g.state === 'stop') {
+                    switch (g.type) {
+                        case 'circle':
+                        // Flowtime.toggleOverview();
+                        case 'swipe':
+                            xdiff = g.direction[0];
+                            ydiff = g.direction[1];
+                            zdiff = g.direction[2];
+                            movements = [
+                                {
+                                    distance: Math.abs(xdiff),
+                                    coordinate: 'x',
+                                    type: (xdiff > 0) ? 'left' : 'right'
+                                },
+                                {
+                                    distance: Math.abs(ydiff),
+                                    coordinate: 'y',
+                                    type: (ydiff > 0) ? 'down' : 'up'
+                                },
+                                {
+                                    distance: Math.abs(zdiff),
+                                    coordinate: 'z',
+                                    type: (zdiff > 0) ? 'forward' : 'back'
+                                }
+                            ];
+                            // sort movements based on furthest distance
+                            movements.sort(function (a, b) {
+                                return a['distance'] < b['distance'];
+                            });
+                            m = movements[0];
+                            switch (m.type) {
+                                case 'left':
+                                    Flowtime.next();
+                                    break;
+                                case 'right':
+                                    Flowtime.prev();
+                                    break;
+                                case 'forward':
+                                case 'back':
+                                    Flowtime.toggleOverview();
+                                    break;
+                            }
+                        case 'screenTap':
+                            console.debug(g.position);
+                        default:
+                            detect = false;
+                            window.setTimeout(function () {
+                                detect = true;
+                            }, timeout);
+                    }
+                }
+            });
+        }());
+    }
+
+    /**
+     * Event handling
+     */
+    $(document).ready(calculateScale);
+    $(window).resize(calculateScale);
+</script>
+
+
+<script type="text/javascript">
+    startPresentation(true, false, 0, false, false);
+</script>
+
+
+
+
+
+
+
+<script type="text/javascript">
+    var _gauges = _gauges || [];
+    (function () {
+        var t = document.createElement('script');
+        t.type = 'text/javascript';
+        t.async = true;
+        t.id = 'gauges-tracker';
+        t.setAttribute('data-site-id', '517a9339f5a1f51030000008');
+        t.src = '//secure.gaug.es/track.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(t, s);
+    })();
+</script>
+</body>
+</html>
