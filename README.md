@@ -1,5 +1,14 @@
 # tizen-werbrtc
-Integration between a WebRTC android add and a Tizen Wearable widegt
+Integration between a WebRTC android add and a Tizen Wearable widegt:
+
+* Step 1, install the Tizen Wearable SDK and define a vritual device
+* Step 2, configure a SAP server on your device in order to test the connectivity
+* Step 3, import  the HelloAccessoryProvider project in Eclipse and build it (just to be sure your configuration is OK)
+* Step 4, import your WebRTC Cordova project in Eclipse (don't build it, it will fail)
+* Step 5, build and link Cordova to your project (don't forget to match your target API)
+* Step 6, build the Cordova project to verify everything is correctly configured
+* Step 7, start the integration of the HelloAccessoryProvider project with the Cordova one
+* Step 8, build a Tizen Wearable widget and connect it to your Cordova app
 
 === 
 ## Useful links
