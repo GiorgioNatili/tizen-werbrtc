@@ -10,6 +10,24 @@ Integration between a WebRTC android add and a Tizen Wearable widegt:
 * Step 7, start the integration of the HelloAccessoryProvider project with the Cordova one
 * Step 8, build a Tizen Wearable widget and connect it to your Cordova app
 
+===
+### Pending Links
+https://developer.tizen.org/documentation/mobile-web-app-programming/ide-and-tools/command-line-interface
+https://developer.tizen.org/downloads/sample-applications/sample-wearable-applications
+https://developer.tizen.org/dev-guide/2.3.0/org.tizen.mobile.native.appprogramming/html/ide_sdk_tools/command_line_interface.htm
+http://www.tizenexperts.com/category/tutorials/page/2/
+http://denvycom.com/blog/step-by-step-guide-to-build-your-first-samsung-gear2-app-tizen/
+http://denvycom.com/blog/samsung-gear-2-tizen-wearable-sample-apps-widgets-and-templates/
+https://developer.tizen.org/dev-guide/2.2.1/org.tizen.web.appprogramming/html/app_dev_process/running_widget_emulator.htm
+http://stackoverflow.com/questions/28141056/tizen-gear-2-web-request
+http://denvycom.com/blog/samsung-gear-2-tizen-wearable-sample-apps-widgets-and-templates/
+http://www.linux.com/news/featured-blogs/192-brian-warner/787019-tizen-sdk-updated-for-the-gear-s
+https://github.com/developerforce/WearablePack-SamsungGear2/tree/master/samples/TodayApp
+http://blog.scalac.io/2014/07/30/developing-your-first-galaxy-gear-app.html
+http://www.androidauthority.com/samsung-gear-tizen-android-wear-574905/
+https://developer.tizen.org/forums/web-application-development/state-webrtc-on-tizen-wearable-sdk
+https://developer.tizen.org/documentation/dev-guide/2.3.0
+
 === 
 ## Useful links
 http://denvycom.com/blog/step-by-step-guide-to-build-your-first-samsung-gear2-app-tizen/
